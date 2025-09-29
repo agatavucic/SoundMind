@@ -1,0 +1,19 @@
+# Build & IDE
+/out/
+/target/
+*.iml
+.idea/
+*.class
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Privremeno
+*.log
+
+# Podaci aplikacije
+history.ser
+favorites.ser
+history.txt
+

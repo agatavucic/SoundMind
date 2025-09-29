@@ -1,0 +1,242 @@
+@startuml
+class SurveyFormPanel {
+- SurveyListener surveyListener
+- JRadioButton rHappy
+- JRadioButton rSad
+- JRadioButton rCalm
+- ButtonGroup moodGroup
+- JComboBox genreCombo
+- JComboBox energyCombo
+- JCheckBox chkInstrumental
+- JCheckBox chkAcoustic
+- JButton submitBtn
+- JButton resetBtn
++ void init()
++ void reset()
++ void setSurveyListener(SurveyListener)
+}
+
+
+interface HistoryPanelListener {
++ void favoriteRemoveRequested(Playlist)
+}
+
+interface SavePanelListener {
++ void saveToFavorites()
+}
+
+class TextHistoryIO {
+- File textFile
+- DateTimeFormatter fmt
++ void append(Playlist)
++ String readAll()
+}
+
+
+class HistoryPanel {
+- DefaultTableModel model
+- JTable table
+- JPanel controls
+- JButton btnSortDate
+- JButton btnSortName
+- JButton btnReset
+- JLabel lblDate
+- JTextField dateField
+- JButton btnSearch
+- JButton btnRemove
+- List<Playlist> allPlaylists
+- List<Playlist> visible
+- DateTimeFormatter fmt
+- HistoryPanelListener listener
++ void init()
++ void setHistoryPanelListener(HistoryPanelListener)
++ void updateHistory(List<Playlist>)
++ void setPlaylists(List<Playlist>)
++ Playlist getSelectedPlaylist()
+- void showAll()
+- void sortByDateAsc()
+- void sortByNameAsc()
+- void searchByDate(String)
+- void activateControls()
+- void refreshTable()
+- String joinSongs(List<Song>)
+- void adjustAllRowHeights()
+}
+
+
+class HistoryPanel$MultiLineCellRenderer {
++ Component getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)
+}
+
+class ToolBar {
+- JButton surveyBtn
+- JButton historyBtn
+- JButton favoritesBtn
+- JButton logBtn
+- ToolBarListener toolBarListener
++ void init()
++ void setToolBarListener(ToolBarListener)
+}
+
+
+interface ToolBarListener {
++ void showSurvey()
++ void showHistory()
++ void showFavorites()
++ void showLog()
+}
+
+class PlaylistGenerator {
++ Playlist generate(SurveyEvent)
+- void applyPreferences(Playlist,SurveyEvent)
+- void fillPopHappyHigh(Playlist)
+- void fillPopHappyMedium(Playlist)
+- void fillPopHappyLow(Playlist)
+- void fillPopSadHigh(Playlist)
+- void fillPopSadMedium(Playlist)
+- void fillPopSadLow(Playlist)
+- void fillPopCalmHigh(Playlist)
+- void fillPopCalmMedium(Playlist)
+- void fillPopCalmLow(Playlist)
+- void fillRockHappyHigh(Playlist)
+- void fillRockHappyMedium(Playlist)
+- void fillRockHappyLow(Playlist)
+- void fillRockSadHigh(Playlist)
+- void fillRockSadMedium(Playlist)
+- void fillRockSadLow(Playlist)
+- void fillRockCalmHigh(Playlist)
+- void fillRockCalmMedium(Playlist)
+- void fillRockCalmLow(Playlist)
+- void fillJazzHappyHigh(Playlist)
+- void fillJazzHappyMedium(Playlist)
+- void fillJazzHappyLow(Playlist)
+- void fillJazzSadHigh(Playlist)
+- void fillJazzSadMedium(Playlist)
+- void fillJazzSadLow(Playlist)
+- void fillJazzCalmHigh(Playlist)
+- void fillJazzCalmMedium(Playlist)
+- void fillJazzCalmLow(Playlist)
+}
+
+class PlaylistViewPanel {
+- JTextArea area
++ void init()
++ void showPlaylist(Playlist)
+}
+
+
+class LogPanel {
+- JTextArea area
+- TextHistoryIO io
++ void init()
++ void setTextHistoryIO(TextHistoryIO)
++ void reload()
+}
+
+
+class Song {
+- {static} long serialVersionUID
+- String title
+- String artist
++ String getTitle()
++ String getArtist()
++ String toString()
+}
+
+
+class App {
++ {static} void main(String[])
+}
+
+interface SurveyListener {
++ void surveySubmitted(SurveyEvent)
+}
+
+class SavePanel {
+- JButton saveBtn
+- SavePanelListener listener
++ void init()
++ void setSavePanelListener(SavePanelListener)
+}
+
+
+class Playlist {
+- {static} long serialVersionUID
+- String name
+- List<Song> songs
+- LocalDate createdOn
++ void addSong(Song)
++ String getName()
++ List<Song> getSongs()
++ LocalDate getCreatedOn()
+}
+
+
+class MainFrame {
+- ToolBar toolBar
+- SurveyFormPanel surveyPanel
+- PlaylistViewPanel playlistViewPanel
+- SavePanel savePanel
+- HistoryPanel historyPanel
+- HistoryPanel favoritesPanel
+- LogPanel logPanel
+- TextHistoryIO textIO
+- JPanel currentCenter
+- JPanel currentEast
+- List<Playlist> history
+- List<Playlist> favorites
+- Playlist currentPlaylist
+- File historyFile
+- File favoritesFile
+- File historyTxtFile
+- PlaylistGenerator generator
++ void init()
+- void wireSurvey()
+- void wireToolbar()
+- void wireSavePanel()
+- void showCenterPanel(JPanel)
+- void showEastPanel(JPanel)
+- void clearEast()
+- void loadHistoryOnStart()
+- void saveHistory()
+- void loadFavoritesOnStart()
+- void saveFavorites()
+}
+
+
+class SurveyEvent {
+- {static} long serialVersionUID
+- String mood
+- String genre
+- String energy
+- boolean instrumentalOnly
+- boolean acousticVibe
++ String getMood()
++ void setMood(String)
++ String getGenre()
++ void setGenre(String)
++ String getEnergy()
++ void setEnergy(String)
++ boolean isInstrumentalOnly()
++ void setInstrumentalOnly(boolean)
++ boolean isAcousticVibe()
++ void setAcousticVibe(boolean)
+}
+
+
+
+
+javax.swing.JPanel <|-- SurveyFormPanel
+javax.swing.JPanel <|-- HistoryPanel
+HistoryPanel +.. HistoryPanel$MultiLineCellRenderer
+TableCellRenderer <|.. HistoryPanel$MultiLineCellRenderer
+JTextArea <|-- HistoryPanel$MultiLineCellRenderer
+javax.swing.JPanel <|-- ToolBar
+javax.swing.JPanel <|-- PlaylistViewPanel
+javax.swing.JPanel <|-- LogPanel
+java.io.Serializable <|.. Song
+javax.swing.JPanel <|-- SavePanel
+java.io.Serializable <|.. Playlist
+javax.swing.JFrame <|-- MainFrame
+java.io.Serializable <|.. SurveyEvent
+@enduml
