@@ -9,11 +9,16 @@
 .DS_Store
 Thumbs.db
 
-# Privremeno
+# Temporary & backup
 *.log
+*.tmp
+*~
 
-# Podaci aplikacije
+# Application data
 history.ser
 favorites.ser
 history.txt
+
+# Documentation (regenerate when needed)
+docs/
 
