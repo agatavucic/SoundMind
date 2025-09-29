@@ -38,11 +38,7 @@ SoundMind is a Java Swing desktop application that generates personalized playli
 
 1\. Clone the repository:
 
-&nbsp;  ```bash
 
-&nbsp;  git clone https://github.com/your-username/SoundMind.git
-
-&nbsp;  cd SoundMind
 
 
 
